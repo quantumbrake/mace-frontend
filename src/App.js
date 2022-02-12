@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import "./App.css";
 import axios from "axios"
-import { Input } from 'antd';
-import { Table } from 'antd';
 import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
+import { Statistic, Row, Col, Input, Table, Card } from 'antd';
 
 const { Search } = Input;
 
@@ -17,13 +16,15 @@ class App extends Component {
     this.callApi = this.callApi.bind(this);  
     this.makeTable = this.makeTable.bind(this);  
   }
-  callApi() {
-    const baseUrl = 'https://mace-api-app.herokuapp.com'
-    const website = '/website?website=https://based.cooking/apple-pie.html'
+  callApi(website_input) {
+    const baseUrl = 'https://mace-api-app.herokuapp.com/website?website='
+    let website = 'https://based.cooking/apple-pie.html'
+    if (website_input !== '') {
+      website = website_input
+    }
     axios.get(baseUrl + website)
       .then(response => this.setState({ tableContents: response.data }))
       .catch(err => console.log(err));
-    console.log(this.state.tableContents)
   }
   makeTable() {
     const columns = [
@@ -36,7 +37,9 @@ class App extends Component {
         title: "Emission (g)",
         dataIndex: "emission",
         key: "emission",
-        render: number => number.toFixed(2)
+        render: number => number.toFixed(2),
+        sorter: (a, b) => a.emission - b.emission,
+        sortDirections: ['descend'],
       },
       {
         title: "Best match",
@@ -47,16 +50,28 @@ class App extends Component {
         title: "Score",
         dataIndex: "score",
         key: "score",
-        render: number => number.toFixed(2)
+        render: number => number.toFixed(2),
+        sorter: (a, b) => a.score - b.score,
+        sortDirections: ['descend'],
       },
       {
         title: "Accepted",
         dataIndex: "accepted",
         key: "accepted",
-        render: pass => pass ? <CheckCircleTwoTone twoToneColor="green" /> : <CloseCircleTwoTone twoToneColor="red"/>
+        render: pass => pass ? <CheckCircleTwoTone twoToneColor="green" /> : <CloseCircleTwoTone twoToneColor="red"/>,
+        filters: [
+          {
+            text: <CheckCircleTwoTone twoToneColor="green" />,
+            value: true,
+          },
+          {
+            text: <CloseCircleTwoTone twoToneColor="red"/>,
+            value: false,
+          }
+        ],
+        onFilter: (value, record) => record.accepted === value,
       }
     ]
-    console.log(this.state.tableContents)
     if (Object.keys(this.state.tableContents).length === 0) {
       return <Table columns={columns} />
     } else {
@@ -70,7 +85,24 @@ class App extends Component {
           accepted: detail.is_pass,                
         }
       ))
-      return <Table dataSource={tableItems} columns={columns} />
+      console.log(this.state.tableContents)
+      let total_co2_amount = this.state.tableContents.total_co2.amount
+      let total_co2_header = "Total CO2"
+      let total_co2_unit = this.state.tableContents.total_co2.unit
+      let result = <div>
+        <Row>
+        <Table dataSource={tableItems} columns={columns} />
+        </Row>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Card>
+            <Statistic title={total_co2_header} value={total_co2_amount} 
+            precision={2} suffix={total_co2_unit} valueStyle={{ color: '#3f8600' }}/>
+            </Card>
+          </Col>
+        </Row>
+        </div>
+      return result
     }
   }
   render() {
@@ -78,10 +110,10 @@ class App extends Component {
     <div className="App">
       <header className="App-header">
       <Search
-      placeholder="input search text"
+      allowClear
+      placeholder="Recipe website"
       enterButton="Search"
       size="large"
-      // suffix={suffix}
       onSearch={this.callApi}
     />
       <p>{ this.makeTable() }</p> 
