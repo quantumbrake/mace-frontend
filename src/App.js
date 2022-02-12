@@ -3,6 +3,7 @@ import "./App.css";
 import axios from "axios"
 import { Input } from 'antd';
 import { Table } from 'antd';
+import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
 
 const { Search } = Input;
 
@@ -30,8 +31,32 @@ class App extends Component {
         title: "Name",
         dataIndex: "name",
         key: "name"
+      },
+      {
+        title: "Emission (g)",
+        dataIndex: "emission",
+        key: "emission",
+        render: number => number.toFixed(2)
+      },
+      {
+        title: "Best match",
+        dataIndex: "best_match",
+        key: "best_match"
+      },
+      {
+        title: "Score",
+        dataIndex: "score",
+        key: "score",
+        render: number => number.toFixed(2)
+      },
+      {
+        title: "Accepted",
+        dataIndex: "accepted",
+        key: "accepted",
+        render: pass => pass ? <CheckCircleTwoTone twoToneColor="green" /> : <CloseCircleTwoTone twoToneColor="red"/>
       }
     ]
+    console.log(this.state.tableContents)
     if (Object.keys(this.state.tableContents).length === 0) {
       return <Table columns={columns} />
     } else {
@@ -39,7 +64,10 @@ class App extends Component {
         {
           key: toString(index),
           name: detail.name,
-
+          emission: detail.emission,
+          best_match: detail.best_match,
+          score: detail.score,
+          accepted: detail.is_pass,                
         }
       ))
       return <Table dataSource={tableItems} columns={columns} />
