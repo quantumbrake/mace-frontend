@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import "./App.css";
-import { Button } from 'antd';
 import axios from "axios"
+import { Input } from 'antd';
+import { Table } from 'antd';
+
+const { Search } = Input;
 
 class App extends Component {
   constructor(props) {
@@ -22,22 +25,37 @@ class App extends Component {
     console.log(this.state.tableContents)
   }
   makeTable() {
+    const columns = [
+      {
+        title: "Name",
+        dataIndex: "name",
+        key: "name"
+      }
+    ]
     if (Object.keys(this.state.tableContents).length === 0) {
-      return <p> Empty table </p>
+      return <Table columns={columns} />
     } else {
-      const tableItems = this.state.tableContents.details.map((detail) =>
-      <li key={detail.name}>
-        {detail.name}
-      </li>
-      )
-      return tableItems
+      const tableItems = this.state.tableContents.details.map((detail, index) => (
+        {
+          key: toString(index),
+          name: detail.name,
+
+        }
+      ))
+      return <Table dataSource={tableItems} columns={columns} />
     }
   }
   render() {
     return (
     <div className="App">
       <header className="App-header">
-      <Button onClick={this.callApi} type="primary">Button</Button>
+      <Search
+      placeholder="input search text"
+      enterButton="Search"
+      size="large"
+      // suffix={suffix}
+      onSearch={this.callApi}
+    />
       <p>{ this.makeTable() }</p> 
       </header>
     </div>
