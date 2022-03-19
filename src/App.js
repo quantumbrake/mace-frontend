@@ -15,9 +15,11 @@ class App extends Component {
     super(props);
     this.state = {
       tableContents: {},
+      recipeInput: "",
     };
     // This binding is necessary to make `this` work in the callback
-    this.callApi = this.callWebsiteApi.bind(this);
+    this.callWebsiteApi = this.callWebsiteApi.bind(this);
+    this.callPlainTextApi = this.callPlainTextApi.bind(this);
     this.makeTable = this.makeTable.bind(this);
   }
   callWebsiteApi(website_input) {
@@ -28,6 +30,15 @@ class App extends Component {
     }
     axios
       .get(baseUrl + website)
+      .then((response) => this.setState({ tableContents: response.data }))
+      .catch((err) => console.log(err));
+  }
+  callPlainTextApi(plaintext_input) {
+    const baseUrl = "https://mace-api-app.herokuapp.com/textinput";
+    axios
+      .post(baseUrl, {
+        contents: plaintext_input,
+      })
       .then((response) => this.setState({ tableContents: response.data }))
       .catch((err) => console.log(err));
   }
@@ -85,17 +96,14 @@ class App extends Component {
     if (Object.keys(this.state.tableContents).length === 0) {
       return <Table columns={columns} />;
     } else {
-      const tableItems = this.state.tableContents.details.map(
-        (detail, index) => ({
-          key: toString(index),
-          name: detail.name,
-          emission: detail.emission,
-          best_match: detail.best_match,
-          score: detail.score,
-          accepted: detail.is_pass,
-        })
-      );
-      console.log(this.state.tableContents);
+      const tableItems = this.state.tableContents.details.map((detail) => ({
+        key: detail.name,
+        name: detail.name,
+        emission: detail.emission,
+        best_match: detail.best_match,
+        score: detail.score,
+        accepted: detail.is_pass,
+      }));
       let total_co2_amount = this.state.tableContents.total_co2.amount;
       let total_co2_header = "Total CO2";
       let total_co2_unit = this.state.tableContents.total_co2.unit;
@@ -126,26 +134,45 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <Search
-            allowClear
-            placeholder="Recipe website"
-            enterButton="Search"
-            size="large"
-            onSearch={this.callWebsiteApi}
-          />
+          <Row justify="center">
+          <Col span={24}>
+            <Row>
+              <Col span={24}>
+                <Search
+                  allowClear
+                  placeholder="Recipe website"
+                  enterButton="Search"
+                  size="large"
+                  onSearch={this.callWebsiteApi}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={20}>
+                <TextArea
+                  rows={4}
+                  placeholder="Recipe plain text input"
+                  maxLength={80}
+                  onChange={(event) =>
+                    this.setState({ recipeInput: event.target.value })
+                  }
+                />
+              </Col>
+              <Col span={1}></Col>
+              <Col span={3}>
+                <Button
+                  type="primary"
+                  icon={<SearchOutlined />}
+                  onClick={() => this.callPlainTextApi(this.state.recipeInput)}
+                >
+                  Search
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+          </Row>
           <hr></hr>
-          <div>
-            <TextArea
-              rows={4}
-              placeholder="Recipe plain text input"
-              maxLength={6}
-            />
-            <Button type="primary" icon={<SearchOutlined />} onClick={this.callPlainTextApi}>
-              Search
-            </Button>
-          </div>
-          <hr></hr>
-          <p>{this.makeTable()}</p>
+          {this.makeTable()}
         </header>
       </div>
     );
