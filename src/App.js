@@ -7,7 +7,17 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { Typography } from "antd";
-import { Button, Layout, Space, Statistic, Row, Col, Input, Table, Card } from "antd";
+import {
+  Button,
+  Layout,
+  Space,
+  Statistic,
+  Row,
+  Col,
+  Input,
+  Table,
+  Card,
+} from "antd";
 
 const { Title } = Typography;
 const { Header, Footer, Sider, Content } = Layout;
@@ -113,10 +123,12 @@ class App extends Component {
       let result = (
         <div>
           <Row>
+          <Col>
             <Table dataSource={tableItems} columns={columns} />
+            </Col>
           </Row>
-          <Row gutter={16}>
-            <Col span={12}>
+          <Row >
+            <Col >
               <Card>
                 <Statistic
                   title={total_co2_header}
@@ -136,31 +148,32 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Layout style={{ minHeight: '100vh' }}>
-          <Header>
-            <Title className="App-header">Header</Title>
-          </Header>
-          <Content>
-            <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-            <Row>
-              <Col span={24}>
-                <Row >
-                  <Col offset={6} span={10}>
-                    <Search
-                      allowClear
-                      placeholder="Recipe website"
-                      enterButton="Search"
-                      size="large"
-                      onSearch={this.callWebsiteApi}
-                    />
-                  </Col>
-                </Row>
-                <Row justify="space-around" align="middle">
-                  <Col offset={6} span={10}>
+        <Layout style={{ minHeight: "100vh" }}>
+          <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+            <Header>
+              <Title className="App-header">Recipe CO2 estimator</Title>
+            </Header>
+            <Content>
+              <Space
+                direction="vertical"
+                size="middle"
+                style={{ display: "flex" }}
+              >
+                <Col offset={6} span={10}>
+                  <Search
+                    allowClear
+                    placeholder="Recipe website"
+                    enterButton="Search"
+                    size="large"
+                    onSearch={this.callWebsiteApi}
+                  />
+                </Col>
+                <Row align="middle">
+                  <Col offset={6} span={9}>
                     <TextArea
                       rows={8}
                       placeholder="Recipe plain text input"
-                      maxLength={80}
+                      maxLength={800}
                       onChange={(event) =>
                         this.setState({ recipeInput: event.target.value })
                       }
@@ -170,6 +183,7 @@ class App extends Component {
                     <Button
                       type="primary"
                       icon={<SearchOutlined />}
+                      size="large"
                       onClick={() =>
                         this.callPlainTextApi(this.state.recipeInput)
                       }
@@ -178,13 +192,10 @@ class App extends Component {
                     </Button>
                   </Col>
                 </Row>
-              </Col>
-            </Row>
-            <hr></hr>
-            {this.makeTable()}
-            </Space>
-          </Content>
-          <Footer>Footer</Footer>
+                <Col offset={6} span={10}>{this.makeTable()}</Col>
+              </Space>
+            </Content>
+          </Space>
         </Layout>
       </div>
     );
