@@ -6,8 +6,11 @@ import {
   CloseCircleTwoTone,
   SearchOutlined,
 } from "@ant-design/icons";
-import { Button, Statistic, Row, Col, Input, Table, Card } from "antd";
+import { Typography } from "antd";
+import { Button, Layout, Space, Statistic, Row, Col, Input, Table, Card } from "antd";
 
+const { Title } = Typography;
+const { Header, Footer, Sider, Content } = Layout;
 const { Search, TextArea } = Input;
 
 class App extends Component {
@@ -133,47 +136,56 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <Row justify="center">
-          <Col span={24}>
+        <Layout style={{ minHeight: '100vh' }}>
+          <Header>
+            <Title className="App-header">Header</Title>
+          </Header>
+          <Content>
+            <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
             <Row>
               <Col span={24}>
-                <Search
-                  allowClear
-                  placeholder="Recipe website"
-                  enterButton="Search"
-                  size="large"
-                  onSearch={this.callWebsiteApi}
-                />
+                <Row >
+                  <Col offset={6} span={10}>
+                    <Search
+                      allowClear
+                      placeholder="Recipe website"
+                      enterButton="Search"
+                      size="large"
+                      onSearch={this.callWebsiteApi}
+                    />
+                  </Col>
+                </Row>
+                <Row justify="space-around" align="middle">
+                  <Col offset={6} span={10}>
+                    <TextArea
+                      rows={8}
+                      placeholder="Recipe plain text input"
+                      maxLength={80}
+                      onChange={(event) =>
+                        this.setState({ recipeInput: event.target.value })
+                      }
+                    />
+                  </Col>
+                  <Col span={1}>
+                    <Button
+                      type="primary"
+                      icon={<SearchOutlined />}
+                      onClick={() =>
+                        this.callPlainTextApi(this.state.recipeInput)
+                      }
+                    >
+                      Search
+                    </Button>
+                  </Col>
+                </Row>
               </Col>
             </Row>
-            <Row>
-              <Col span={20}>
-                <TextArea
-                  rows={4}
-                  placeholder="Recipe plain text input"
-                  maxLength={80}
-                  onChange={(event) =>
-                    this.setState({ recipeInput: event.target.value })
-                  }
-                />
-              </Col>
-              <Col span={1}></Col>
-              <Col span={3}>
-                <Button
-                  type="primary"
-                  icon={<SearchOutlined />}
-                  onClick={() => this.callPlainTextApi(this.state.recipeInput)}
-                >
-                  Search
-                </Button>
-              </Col>
-            </Row>
-          </Col>
-          </Row>
-          <hr></hr>
-          {this.makeTable()}
-        </header>
+            <hr></hr>
+            {this.makeTable()}
+            </Space>
+          </Content>
+          <Footer>Footer</Footer>
+        </Layout>
       </div>
     );
   }
