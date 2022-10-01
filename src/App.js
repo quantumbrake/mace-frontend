@@ -164,7 +164,7 @@ class App extends Component {
                   <Col offset={6} span={10}>
                     <TextArea
                       rows={8}
-                      placeholder="Enter recipe as plain text"
+                      placeholder={`Enter recipe as plain text. For example: \n\n5 ounce boneless pork loin chops, cut 1-inch thick\n1.75 tablespoons smoked paprika\n1.5 teaspoons kosher salt\n0.75 teaspoon freshly ground black pepper\n0.5 teaspoon onion powder\n0.5 teaspoon granulated garlic`}
                       maxLength={800}
                       onChange={(event) =>
                         this.setState({ recipeInput: event.target.value })
