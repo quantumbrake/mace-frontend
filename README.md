@@ -1,70 +1,24 @@
-# Getting Started with Create React App
+# mace: Recipe CO2 estimator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Have you ever looked at a recipe and wondered what the CO2 emissions of its ingredients are? Us neither.
 
-## Available Scripts
+Anyway, here is a tool that does that. Just input the recipe as plaintext and out pops the CO2 emissions in grams. 
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Handles unit conversions from common units (e.g. ml, teaspoon, oz etc).
+- Can also handle conversions from volumes and weights (e.g. you can use 100ml or 100g water).
+- Finds closest match of ingredient names, and returns a confidence score with the emissions. 
+    - You can modify the ingredient name if you are dissatisfied with the match returned.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## References
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The CO2 emissions of ingredients are sourced from https://www.science.org/doi/10.1126/science.aaq0216.
 
-### `npm test`
+### Densities
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- http://www.mpd-inc.com/bulk-density/
+- https://www.engineeringtoolbox.com
+- https://www.diva-portal.org/smash/get/diva2:942829/FULLTEXT01.pdf
+- https://www.aqua-calc.com/page/density-table/substance/
+- http://www.mpd-inc.com/bulk-density/
