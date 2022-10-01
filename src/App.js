@@ -159,29 +159,23 @@ class App extends Component {
                 size="middle"
                 style={{ display: "flex" }}
               >
-                <Col offset={6} span={10}>
-                  <Search
-                    allowClear
-                    placeholder="Recipe website"
-                    enterButton="Search"
-                    size="large"
-                    onSearch={this.callWebsiteApi}
-                  />
-                </Col>
-                <Row align="middle">
-                  <Col offset={6} span={9}>
+                <div>
+                <Row align="lower">
+                  <Col offset={6} span={10}>
                     <TextArea
                       rows={8}
-                      placeholder="Recipe plain text input"
+                      placeholder="Enter recipe as plain text"
                       maxLength={800}
                       onChange={(event) =>
                         this.setState({ recipeInput: event.target.value })
                       }
                     />
                   </Col>
-                  <Col span={1}>
+                  </Row>
+                  <Col offset={6} span={10}>
                     <Button
                       type="primary"
+                      block
                       icon={<SearchOutlined />}
                       size="large"
                       onClick={() =>
@@ -191,8 +185,8 @@ class App extends Component {
                       Search
                     </Button>
                   </Col>
-                </Row>
-                <Col offset={6} span={10}>{this.makeTable()}</Col>
+                </div>
+              <Col offset={6} span={10}>{this.makeTable()}</Col>
               </Space>
             </Content>
           </Space>
